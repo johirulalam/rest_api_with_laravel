@@ -4,8 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Transaction;
 
 class Buyer extends User
 {
     use HasFactory;
+
+    public function transaction(){
+        return $this->hasMany(Transaction::class);
+    }
 }
