@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Producct;
+use App\Models\Product;
 
 class Seller extends User
 {
     use HasFactory;
 
-    public function product() {
+    public function products() {
         return $this->hasMany(Product::class);
     }
 }

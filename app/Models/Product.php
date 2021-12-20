@@ -28,7 +28,7 @@ class Product extends Model
         $this->status = Product::AVAILABLE_PRODUCT;
     }
 
-    public function category() {
+    public function categories() {
         return $this->belongsToMany(Category::class);
     }
 
@@ -36,7 +36,7 @@ class Product extends Model
         return $this->belongsTo(Seller::class);
     }
 
-    public function transaction() {
+    public function transactions() {
         return $this->hasMany(Transaction::class);
     }
 }
