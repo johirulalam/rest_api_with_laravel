@@ -17,8 +17,9 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'verified' => $verified = $this->randomElement([User::VERIFIED_USER, User::UNVERIFIED_USER]),
+            'verification_token' => $verified == User::VERIFIED_USER ? null : User::getVerificationToken();
+            'password' => bcrypt('password'), // password
             'remember_token' => Str::random(10),
         ];
     }
@@ -37,3 +38,4 @@ class UserFactory extends Factory
         });
     }
 }
+ 
