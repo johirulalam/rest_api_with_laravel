@@ -18,7 +18,8 @@ class ProductFactory extends Factory
             'description' => $this->faker->sentence(2),
             'quantity' => $quantity = $this->numberBetween(0, 100),
             'status' => $quantity > 0 ? Product::isAvailable() : Product::UNAVAILABLE_PRODUCT,
-            'image' => 
+            'image' => $this->faker->randomElement(['1.jpg', '2.jpg', '3.jpg']),
+            'seller_id' => User::all()->random()->id,
         ];
     }
 }
