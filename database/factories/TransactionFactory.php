@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Seller;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TransactionFactory extends Factory
@@ -16,7 +18,7 @@ class TransactionFactory extends Factory
         $seller = Seller::has('products')->get()->random();
         $buyer = User::all()->except($seller->id)->get()->random();
         return [
-            'quantity' => $this->faker->numberBetween(0, 100),
+            'quantity' => $this->faker->numberBetween(1, 100),
             'buyer_id' => $buyer,
             'product_id' = $seller->products->random()->id,
         ];

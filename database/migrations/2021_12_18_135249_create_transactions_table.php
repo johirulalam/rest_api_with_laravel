@@ -16,10 +16,9 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('quantity');
-            $table->foreignId('buyer_id')->constrained();
+            $table->foreignId('buyer_id')->constrained('users');
             $table->foreignId('product_id')->constrained();
-            $table->timestamps('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 

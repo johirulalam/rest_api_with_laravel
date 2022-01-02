@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -17,8 +18,8 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'verified' => $verified = $this->randomElement([User::VERIFIED_USER, User::UNVERIFIED_USER]),
-            'verification_token' => $verified == User::VERIFIED_USER ? null : User::getVerificationToken();
+            'verified' => $verified = $this->faker->randomElement([User::VERIFIED_USER, User::UNVERIFIED_USER]),
+            'verification_token' => $verified == User::VERIFIED_USER ? null : User::getVerificationToken(),
             'password' => bcrypt('password'), // password
             'remember_token' => Str::random(10),
         ];
