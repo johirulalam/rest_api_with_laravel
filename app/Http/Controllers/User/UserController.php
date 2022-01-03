@@ -28,6 +28,7 @@ class UserController extends Controller
     public function create()
     {
         //
+
     }
 
     /**
@@ -39,6 +40,24 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->password = bcrypt($request->password);
+        $user->verified = User::UNVERIFIED_USER;
+        $user->verification_token = User::getVerificationToken();
+        $user->admin = User::REGULER_USER;
+        $user->save();
+
+        return response()->json($user, 201);
+
     }
 
     /**
