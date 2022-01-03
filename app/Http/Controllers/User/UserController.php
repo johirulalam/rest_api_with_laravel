@@ -94,6 +94,43 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $user =  User::findOrFail($id);
+        $request->validate([
+             'email' => 'email|unique:users,email,'. $user->id, 
+             'password' => 'min:6|confirmed',
+             'admin' => 'in:'. User::ADMIN_USER . ',' . User::REGULER_USER,
+        ]);
+
+        if($request->has('name')){
+            $user->name = $request->name;
+        }
+
+        if($request->has('email') && $user->email != $request->email) {
+            $user->verified = User::UNVERIFIED_USER;
+            $user->verification_token = User::getVerificationToken();
+            $user->email = $request->email;
+        }
+
+        if($request->has('password')){
+            $user->password = bcrypt($request->password);
+        }
+
+        if($request->has('admin')) {
+
+            if(!$user->isVeified()) {
+                return response()->json(['error' => 'only verified user can modified admin rolle', 'code' => 409], 409);
+            }
+
+            $user->admin = $request->admin;
+        }
+
+        if(!$user->isDirty()) {
+            return response()->json(['error' => 'You need to specify which feild you want to update', 'code' => 422], 422);
+        }
+
+        $user->save();
+
+        return response()->json($user, 200);
     }
 
     /**
