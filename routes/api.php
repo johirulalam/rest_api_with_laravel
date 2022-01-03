@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
+use App\Http\controllers\Buyer\BuyerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,14 +21,11 @@ use App\Http\Controllers\User\UserController;
 // });
 
 
-Route::get('/', function () {
-    return "hello";
-});
-
 Route::resource('users', UserController::class)->only(['index', 'show']);
 Route::resource('category', CategoryController::class)->except(['create', 'edit']);
 Route::resource('products', ProductController::class)->only(['index', 'show']);
 Route::resource('sellers', SellerController::class)->only(['index', 'show']);
+Route::resource('buyers', BuyerController::class)->only(['index', 'show']);
 Route::resource('transaction', TransactionController::class)->only(['index', 'show']);
 Route::resource('users', UserController::class)->except(['create','edit']);
 
