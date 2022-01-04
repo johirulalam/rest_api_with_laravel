@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return response()->json($users, 200);
+        return $this->showAll($user);
 
     }
 
@@ -46,7 +46,7 @@ class UserController extends Controller
         $user->admin = User::REGULER_USER;
         $user->save();
 
-        return response()->json($user, 201);
+        return $this->showOne($user);
 
     }
 
@@ -60,7 +60,7 @@ class UserController extends Controller
     {
         //
         $user = User::findOrFail($id);
-        return response()->json($user, 200);
+        return $this->showOne($user);
     }
 
     
@@ -98,19 +98,19 @@ class UserController extends Controller
         if($request->has('admin')) {
 
             if(!$user->isVeified()) {
-                return response()->json(['error' => 'only verified user can modified admin rolle', 'code' => 409], 409);
+                return $this->errorResponse('only verified user can modified admin rolle', 409);
             }
 
             $user->admin = $request->admin;
         }
 
         if(!$user->isDirty()) {
-            return response()->json(['error' => 'You need to specify which feild you want to update', 'code' => 422], 422);
+            return response()->json('You need to specify which feild you want to update', 422);
         }
 
         $user->save();
 
-        return response()->json($user, 200);
+        return $this->showOne($user);
     }
 
     /**
@@ -124,6 +124,6 @@ class UserController extends Controller
         //
         $user = User::findOrFail($id);
         $user->delete();
-        return response()->json($user, 200);
+        return $this->showOne($user);
     }
 }
