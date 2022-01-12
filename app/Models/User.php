@@ -73,6 +73,8 @@ class User extends Authenticatable
         $this->attributes['email'] = strtolower($email);
     }
 
+    
+
     public function isAdmin() {
         return $this->admin = User::ADMIN_USER;
     }

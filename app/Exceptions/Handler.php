@@ -3,10 +3,13 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use App\Traits\ApiResponser;
 
 class Handler extends ExceptionHandler
 {
+    use ApiResponser;
     /**
      * A list of the exception types that are not reported.
      *
@@ -36,6 +39,15 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (NotFoundHttpException $e) {
+            $modelName = $e->getMessage();
+            $modelName =substr($modelName, 39,50);
+            $modelName = str_replace(']', '', $modelName);
+
+
+            return $this->errorResponse("{$modelName} does not exist", 404);
         });
     }
 }
