@@ -8,6 +8,9 @@ use App\Http\controllers\Seller\SellerController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Transaction\TransactionController;
+use App\Http\Controllers\Transaction\TransactionCategoryController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,6 +34,9 @@ Route::resource('sellers', SellerController::class)->only(['index', 'show']);
 Route::resource('buyers', BuyerController::class)->only(['index', 'show']);
 Route::resource('transactions', TransactionController::class)->only(['index', 'show']);
 Route::resource('users', UserController::class)->except(['create','edit']);
+
+
+Route::resource('transactions.category', TransactionCategoryController::class)->only('index');
 
 Route::fallback( function(){
     return response()->json([
