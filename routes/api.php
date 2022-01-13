@@ -9,7 +9,7 @@ use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Transaction\TransactionController;
 use App\Http\Controllers\Transaction\TransactionCategoryController;
-
+use App\Http\Controllers\Transaction\TransactionSellerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ Route::resource('users', UserController::class)->except(['create','edit']);
 
 
 Route::resource('transactions.category', TransactionCategoryController::class)->only('index');
-
+Route::resource('transactions.sellers', TransactionSellerController::class)->only('index');
 Route::fallback( function(){
     return response()->json([
         'message' => 'Page is not found'], 404);
