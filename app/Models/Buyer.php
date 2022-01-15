@@ -11,8 +11,7 @@ class Buyer extends User
 {
     use HasFactory;
 
-    protected static function booted()
-    {
+    protected static function booted(){
         static::addGlobalScope(new BuyerScope);
     }
     public function transactions(){
