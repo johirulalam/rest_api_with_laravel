@@ -14,6 +14,7 @@ use App\Http\controllers\Buyer\BuyerTransactionController;
 use App\Http\Controllers\Buyer\BuyerProductController;
 use App\Http\Controllers\Buyer\BuyerSellerController;
 use App\Http\controllers\Buyer\BuyerCategoryController;
+use App\Http\Controllers\Category\CategoryProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,8 @@ Route::resource('buyers.transactions', BuyerTransactionController::class)->only(
 Route::resource('buyers.products', BuyerProductController::class)->only('index');
 Route::resource('buyers.sellers', BuyerSellerController::class)->only('index');
 Route::resource('buyers.category', BuyerCategoryController::class)->only('index');
+Route::resource('category.products', CategoryProductController::class)->only('index');
+
 Route::fallback( function(){
     return response()->json([
         'message' => 'Page is not found'], 404);
