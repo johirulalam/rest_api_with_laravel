@@ -6,7 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Models\Buyer;
 use Illuminate\Http\Request;
 
-class BuyerSellerController extends ApiController
+class BuyerCategoryController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,9 @@ class BuyerSellerController extends ApiController
     public function index(Buyer $buyer)
     {
         //
-        $sellers = $buyer->transactions()->with('product.seller')->get()->pluck('product.seller')->unique('id')->values();
-        return $this->showAll($sellers);
+        $category = $buyer->transactions()->with('product.categories')->get()->pluck('product.categories')->collapse()->unique('id')->values();
+        return $this->showAll($category);
+
     }
+
 }
