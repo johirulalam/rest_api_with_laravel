@@ -19,6 +19,7 @@ use App\Http\Controllers\Category\CategorySellerController;
 use App\Http\Controllers\Category\CategoryTransactionController;
 use App\Http\Controllers\Category\CategoryBuyerController;
 use App\Http\Controllers\Seller\SellerTransactionController;
+use App\Http\Controllers\Seller\SellerCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,7 @@ Route::resource('category.sellers', CategorySellerController::class)->only('inde
 Route::resource('category.transactions', CategoryTransactionController::class)->only('index');
 Route::resource('category.buyers', CategoryBuyerController::class)->only('index');
 Route::resource('sellers.transactions', SellerTransactionController::class)->only('index');
+Route::resource('sellers.category', SellerCategoryController::class)->only('index');
 
 Route::fallback( function(){
     return response()->json([
