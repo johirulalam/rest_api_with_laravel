@@ -16,6 +16,7 @@ use App\Http\Controllers\Buyer\BuyerSellerController;
 use App\Http\controllers\Buyer\BuyerCategoryController;
 use App\Http\Controllers\Category\CategoryProductController;
 use App\Http\Controllers\Category\CategorySellerController;
+use App\Http\Controllers\Category\CategoryTransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::resource('buyers.sellers', BuyerSellerController::class)->only('index');
 Route::resource('buyers.category', BuyerCategoryController::class)->only('index');
 Route::resource('category.products', CategoryProductController::class)->only('index');
 Route::resource('category.sellers', CategorySellerController::class)->only('index');
+Route::resource('category.transactions', CategoryTransactionController::class)->only('index');
 
 Route::fallback( function(){
     return response()->json([
