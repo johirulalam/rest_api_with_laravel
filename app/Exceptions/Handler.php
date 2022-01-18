@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 use App\Traits\ApiResponser;
 
@@ -49,5 +50,6 @@ class Handler extends ExceptionHandler
 
             return $this->errorResponse("{$modelName} does not exist", 404);
         });
+
     }
 }
