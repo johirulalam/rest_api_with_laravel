@@ -23,6 +23,8 @@ use App\Http\Controllers\Seller\SellerCategoryController;
 use App\Http\Controllers\Seller\SellerBuyerController;
 use App\Http\Controllers\Seller\SellerProductController;
 use App\Http\Controllers\Product\ProductTransactionController;
+use App\Http\Controllers\Product\ProductBuyerController;
+use App\Http\Controllers\Product\ProductCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +66,9 @@ Route::resource('sellers.category', SellerCategoryController::class)->only('inde
 Route::resource('sellers.buyers', SellerBuyerController::class)->only('index');
 Route::resource('sellers.products', SellerProductController::class);
 Route::resource('products.transactions', ProductTransactionController::class)->only('index');
+Route::resource('products.buyers', ProductBuyerController::class)->only('index');
+Route::resource('products.category', ProductCategoryController::class)->only(['index', 'update', 'destroy']);
+// Route::put('products/{product}/category/{category}', [ProductCategoryController::class, 'update']);
 
 Route::fallback( function(){
     return response()->json([
