@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use App\Models\Product;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -24,5 +24,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        Product::updated( function($product) {
+            if($product->quantity == 0 && $product->isAvailable()) {
+                $product->status = Product::UNAVAILABLE_PRODUCT;
+                $product->save();
+            }
+        });
     }
 }

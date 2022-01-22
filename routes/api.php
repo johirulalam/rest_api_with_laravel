@@ -25,6 +25,7 @@ use App\Http\Controllers\Seller\SellerProductController;
 use App\Http\Controllers\Product\ProductTransactionController;
 use App\Http\Controllers\Product\ProductBuyerController;
 use App\Http\Controllers\Product\ProductCategoryController;
+use App\Http\Controllers\Product\ProductBuyerTransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,7 +70,7 @@ Route::resource('products.transactions', ProductTransactionController::class)->o
 Route::resource('products.buyers', ProductBuyerController::class)->only('index');
 Route::resource('products.category', ProductCategoryController::class)->only(['index', 'update', 'destroy']);
 // Route::put('products/{product}/category/{category}', [ProductCategoryController::class, 'update']);
-
+Route::resource('products.buyers.transactions', ProductBuyerTransactionController::class)->only('store');
 Route::fallback( function(){
     return response()->json([
         'message' => 'Page is not found'], 404);

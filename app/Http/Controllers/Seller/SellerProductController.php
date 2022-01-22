@@ -7,6 +7,7 @@ use App\Models\Seller;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SellerProductController extends ApiController
 {
@@ -27,6 +28,7 @@ class SellerProductController extends ApiController
             'name' => 'required',
             'description' => 'required',
             'quantity' => 'required',
+            'image'    => 'image|mimes:jpg,png|max:2048',
         ]);
 
         $product = new Product();
@@ -34,8 +36,13 @@ class SellerProductController extends ApiController
         $product->description = $request->description;
         $product->quantity = $request->quantity;
         $product->status = $request->quantity > 0 ? Product::AVAILABLE_PRODUCT : Product::UNAVAILABLE_PRODUCT;
-        $product->image = "2.jpg";
         $product->seller_id = $seller->id;
+
+        if ($request->hasFile('image')) {
+            $imageName = time(). '.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $product->image = $imageName;
+        }
         $product->save();
 
         return $this->showOne($product);
@@ -46,7 +53,7 @@ class SellerProductController extends ApiController
         $request->validate([
             'quantity' => 'integer|min:1',
             'status' => 'in:'.Product::AVAILABLE_PRODUCT.','.Product::UNAVAILABLE_PRODUCT,
-            'image' => 'image',
+            'image' => 'image|mimes:jpg,png,gif|max:2048',
         ]);
 
         $this->checkSeller($seller,$product);
@@ -59,6 +66,13 @@ class SellerProductController extends ApiController
         }
         if($request->has('quantity')) {
             $product->quantity = $request->quantity;
+        }
+        if($request->hasFile('image')){
+            //Storage::disk('public')->delete("/images/1642870895.jpg");
+            unlink(public_path().'/images/'.$product->image);
+            $imageName = time(). '.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $product->image = $imageName;
         }
 
         if($request->has('status')) {
@@ -81,7 +95,8 @@ class SellerProductController extends ApiController
 
         $this->checkSeller($seller, $product);
 
-        $product->delete();
+        unlink(public_path().'/images/'.$product->image);
+        Storage::delete($product->image);
         return $this->showOne($product);
     }
 
