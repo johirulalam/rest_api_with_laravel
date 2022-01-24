@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerificationEmail;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -24,6 +28,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        User::created(function($user) {
+
+            if($user->verification_token != null) {
+                Mail::to($user->email)->send(new VerificationEmail($user));
+            }
+            
+        });
+
         Product::updated( function($product) {
             if($product->quantity == 0 && $product->isAvailable()) {
                 $product->status = Product::UNAVAILABLE_PRODUCT;

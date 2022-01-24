@@ -43,13 +43,12 @@ use App\Http\Controllers\Product\ProductBuyerTransactionController;
 // });
 
 
-Route::resource('users', UserController::class)->only(['index', 'show']);
 Route::resource('category', CategoryController::class)->except(['create', 'edit']);
 Route::resource('products', ProductController::class)->only(['index', 'show']);
 Route::resource('sellers', SellerController::class)->only(['index', 'show']);
 Route::resource('buyers', BuyerController::class)->only(['index', 'show']);
 Route::resource('transactions', TransactionController::class)->only(['index', 'show']);
-Route::resource('users', UserController::class)->except(['create','edit']);
+Route::resource('users', UserController::class)->except(['create', 'edit']);
 
 
 Route::resource('transactions.category', TransactionCategoryController::class)->only('index');
@@ -75,3 +74,6 @@ Route::fallback( function(){
     return response()->json([
         'message' => 'Page is not found'], 404);
 });
+
+
+Route::get('users/verify/{token}', [UserController::class, 'verifyEmail'])->name('verify');

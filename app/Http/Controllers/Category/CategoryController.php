@@ -42,8 +42,10 @@ class CategoryController extends ApiController
     {
         //
         $request->validate([
-            'name' => 'required|unique:categories|max:40',
+            'name' => 'required|unique:categories|max:48',
+            'description' => 'required',
         ]);
+
         $category = new Category();
         $category->name = $request->name;
         $category->description = $request->description;

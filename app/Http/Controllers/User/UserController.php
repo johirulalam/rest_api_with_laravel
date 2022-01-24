@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerificationEmail;
 
 class UserController extends ApiController
 {
@@ -17,7 +19,6 @@ class UserController extends ApiController
     {
         $user = User::all();
         return $this->showAll($user);
-
     }
 
 
@@ -39,12 +40,14 @@ class UserController extends ApiController
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
         $user->password = bcrypt($request->password);
         $user->verified = User::UNVERIFIED_USER;
         $user->verification_token = User::getVerificationToken();
         $user->admin = User::REGULER_USER;
+
+        //Mail::to($user->email)->send(new VerificationEmail($user));
         $user->save();
+        
 
         return $this->showOne($user);
 
@@ -121,5 +124,18 @@ class UserController extends ApiController
     {
         $user->delete();
         return $this->showOne($user);
+    }
+
+
+
+    public function verifyEmail($token)
+    {
+        $user = User::where('verification_token', $token)->firstOrFail();
+
+        $user->verified = User::VERIFIED_USER;
+        $user->verification_token = null;
+        $user->save();
+        return $this->showMessage('The account has been succesfully verified');
+
     }
 }
