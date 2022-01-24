@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationEmail;
+use App\Mail\MailChanged;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,9 +32,16 @@ class AppServiceProvider extends ServiceProvider
         User::created(function($user) {
 
             if($user->verification_token != null) {
-                Mail::to($user->email)->send(new VerificationEmail($user));
+                Mail::to($user->email)->queue(new VerificationEmail($user));
             }
-            
+
+        });
+
+        User::updated(function($user){
+
+            if($user->isDirty('email')){
+                Mail::to($user->email)->queue(new MailChanged($user));
+            }
         });
 
         Product::updated( function($product) {
