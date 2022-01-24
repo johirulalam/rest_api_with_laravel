@@ -77,3 +77,4 @@ Route::fallback( function(){
 
 
 Route::get('users/verify/{token}', [UserController::class, 'verifyEmail'])->name('verify');
+Route::get('users/{user}/resend', [UserController::class, 'resendEmail'])->name('resend');
