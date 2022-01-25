@@ -32,7 +32,10 @@ class AppServiceProvider extends ServiceProvider
         User::created(function($user) {
 
             if($user->verification_token != null) {
-                Mail::to($user->email)->queue(new VerificationEmail($user));
+
+                retry(5, function() use ($user){
+                    Mail::to($user->email)->queue(new VerificationEmail($user));
+                }, 100);
             }
 
         });
@@ -40,7 +43,10 @@ class AppServiceProvider extends ServiceProvider
         User::updated(function($user){
 
             if($user->isDirty('email')){
-                Mail::to($user->email)->queue(new MailChanged($user));
+                
+                retry(5, function() use ($user) {
+                    Mail::to($user->email)->queue(new MailChanged($user));
+                }, 100); 
             }
         });
 

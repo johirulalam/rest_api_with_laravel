@@ -32,6 +32,6 @@ class VerificationEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('verification')->with('user', $this->user);
+        return $this->markdown('verification')->with('user', $this->user);
     }
 }
